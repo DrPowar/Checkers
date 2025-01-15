@@ -4,10 +4,10 @@ namespace Checkers.Domain.Interfaces
 {
     public interface IRuleService
     {
-        bool IsMoveValid(Guid gameId, Move move);
+        bool IsMoveValid(Game game, Move move);
 
-        bool IsGameOver(Guid gameId);
+        bool IsGameOver(Game gameId);
 
-        Player GetWinner(Guid gameId);
+        Player GetWinner(Game gameId);
     }
 }

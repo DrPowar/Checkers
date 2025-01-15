@@ -15,10 +15,14 @@ public class Move
     /// </summary>
     public Guid GameId { get; set; }
     
+    public Game? Game { get; set; }
+    
     /// <summary>
     /// The player who made the move.
     /// </summary>
     public Guid PlayerId { get; set; }
+    
+    public Player? Player { get; set; }
     
     /// <summary>
     /// Starting position of the piece.
