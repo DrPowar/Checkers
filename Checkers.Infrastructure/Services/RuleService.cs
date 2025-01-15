@@ -84,7 +84,7 @@ public class RuleService : IRuleService
 
     private bool IsCorrectDirection(Piece piece, Move move)
     {
-        int forwardDirection = piece.PieceColor == PieceColorType.Red ? 1 : -1;
+        int forwardDirection = piece.PieceColor == PieceColorType.White ? 1 : -1;
         
         return move.To.Y - move.From.Y == forwardDirection;
     }

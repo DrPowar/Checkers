@@ -12,7 +12,7 @@ namespace Checkers.Application.Mediator.Games.Handlers
 
         public async Task<Game> Handle(CreateGameCommand request, CancellationToken cancellationToken)
         {
-            List<Piece> board = _boardService.InitializeBoard();
+            List<Piece> board = await _boardService.InitializeBoard();
 
             return await _gameService.CreateGame(board);
         }
