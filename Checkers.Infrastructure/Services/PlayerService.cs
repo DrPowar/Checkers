@@ -1,19 +1,24 @@
 ﻿using Checkers.Domain.Enums;
 using Checkers.Domain.Interfaces;
+using Checkers.Domain.Interfaces.Repositories;
 using Checkers.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Checkers.Infrastructure.Services
 {
     public class PlayerService : IPlayerService
     {
-        public Task AssignPlayerToGame(Guid playerId, Guid gameId)
+        private readonly IBaseRepository<Game> _gameRepository;
+        private readonly IBaseRepository<Player> _playerRepository;
+
+        public async Task AssignPlayerToGame(Guid playerId, Game game)
         {
-            throw new NotImplementedException();
+            Player player = await _playerRepository.Get(playerId);
+
+            if(player != null)
+            {
+                game.Players.Add(player);
+                _gameRepository.Update(game);
+            }
         }
 
         public Task<Player> CreatePlayer(string Name, PieceColorType pieceColor)
@@ -25,12 +30,14 @@ namespace Checkers.Infrastructure.Services
                 PieceColor = pieceColor
             };
 
+            _playerRepository.Add(player);
+
             return Task.FromResult(player);
         }
 
-        public Task<Player> GetPlayerById(Guid playerId)
+        public async Task<Player> GetPlayerById(Guid playerId)
         {
-            throw new NotImplementedException();
+            return await _playerRepository.Get(playerId);
         }
     }
 }

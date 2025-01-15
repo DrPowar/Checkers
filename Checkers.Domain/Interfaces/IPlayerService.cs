@@ -9,6 +9,6 @@ namespace Checkers.Domain.Interfaces
 
         Task<Player> GetPlayerById(Guid playerId);
 
-        Task AssignPlayerToGame(Guid playerId, Guid gameId);
+        Task AssignPlayerToGame(Guid playerId, Game game);
     }
 }
