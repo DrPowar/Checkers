@@ -1,6 +1,6 @@
 namespace Checkers.Domain.Interfaces.Repositories;
 
-public interface IBaseInterface<T> where T : class
+public interface IBaseRepository<T> where T : class
 {
     void Add(T entity, CancellationToken cancellationToken = default);
     Task<T?> Get(Guid id, CancellationToken cancellationToken = default);
