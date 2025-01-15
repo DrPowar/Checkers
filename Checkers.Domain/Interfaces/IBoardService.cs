@@ -4,10 +4,10 @@ namespace Checkers.Domain.Interfaces
 {
     public interface IBoardService
     {
-        List<Piece> InitializeBoard();
+        Task<List<Piece>> InitializeBoard();
 
-        List<Piece> GetBoard(Guid gameId);
+        Task<List<Piece>> GetBoard(Guid gameId);
 
-        List<Piece> UpdateBoard(Guid gameId);
+        Task<List<Piece>> UpdateBoard(Guid gameId);
     }
 }
