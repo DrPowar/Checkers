@@ -7,6 +7,8 @@ namespace Checkers.Domain.Models;
 /// </summary>
 public class Game
 {
+    private const int MaxPlayers = 2;
+
     /// <summary>
     /// Unique identifier for the game.
     /// </summary>
@@ -30,5 +32,13 @@ public class Game
     /// <summary>
     /// Specifies which player's turn it is.
     /// </summary>
-    public Player CurrentTurn { get; set; }
+    public Player? CurrentTurn { get; set; }
+
+    public Game(List<Piece> board)
+    {
+        Id = Guid.NewGuid();
+        Players = new List<Player>(MaxPlayers);
+        Board = board;
+        Status = GameStatus.Paused;
+    }
 }

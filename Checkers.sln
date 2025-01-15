@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers.Api", "Checkers.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers.Domain", "Checkers.Domain\Checkers.Domain.csproj", "{C815F55F-CCBB-446A-BC9B-A87F4C60B02B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers.Infrastructure", "Checkers.Infrastructure\Checkers.Infrastructure.csproj", "{B04CC3A9-851C-4B59-B5E0-1028AC6D98C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers.Application", "Checkers.Application\Checkers.Application.csproj", "{47DF4B73-6DAD-4044-A4EE-183C1F14A4B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{C815F55F-CCBB-446A-BC9B-A87F4C60B02B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C815F55F-CCBB-446A-BC9B-A87F4C60B02B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C815F55F-CCBB-446A-BC9B-A87F4C60B02B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B04CC3A9-851C-4B59-B5E0-1028AC6D98C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B04CC3A9-851C-4B59-B5E0-1028AC6D98C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B04CC3A9-851C-4B59-B5E0-1028AC6D98C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B04CC3A9-851C-4B59-B5E0-1028AC6D98C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47DF4B73-6DAD-4044-A4EE-183C1F14A4B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47DF4B73-6DAD-4044-A4EE-183C1F14A4B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47DF4B73-6DAD-4044-A4EE-183C1F14A4B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47DF4B73-6DAD-4044-A4EE-183C1F14A4B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
