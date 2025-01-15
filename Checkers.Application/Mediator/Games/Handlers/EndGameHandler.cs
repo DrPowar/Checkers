@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Checkers.Application.Mediator.Games.Handlers
 {
-    internal class EndGameHandler : IRequestHandler<EndGameCommand, bool>
+    public class EndGameHandler : IRequestHandler<EndGameCommand, bool>
     {
         private readonly IGameService _gameService;
 

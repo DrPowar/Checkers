@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Checkers.Application.Mediator.Games.Handlers
 {
-    internal class CreateGameHandler : IRequestHandler<CreateGameCommand, Game>
+    public class CreateGameHandler : IRequestHandler<CreateGameCommand, Game>
     {
         private readonly IGameService _gameService;
         private readonly IBoardService _boardService;

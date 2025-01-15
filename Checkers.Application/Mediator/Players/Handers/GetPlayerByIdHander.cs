@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Checkers.Application.Mediator.Players.Handers
 {
-    internal class GetPlayerByIdHander : IRequestHandler<GetPlayerByIdQuery, Player>
+    public class GetPlayerByIdHander : IRequestHandler<GetPlayerByIdQuery, Player>
     {
         private readonly IPlayerService _playerService;
 

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Checkers.Application.Mediator.Games.Handlers
 {
-    internal class GetGameByIdHandler : IRequestHandler<GetGameByIdQuery, Game>
+    public class GetGameByIdHandler : IRequestHandler<GetGameByIdQuery, Game>
     {
         private readonly IGameService _gameService;
 

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Checkers.Application.Mediator.Boards.Handlers
 {
-    internal class GetBoardHandler : IRequestHandler<GetBoardQuery, List<Piece>>
+    public class GetBoardHandler : IRequestHandler<GetBoardQuery, List<Piece>>
     {
         private readonly IBoardService _boardService;
 

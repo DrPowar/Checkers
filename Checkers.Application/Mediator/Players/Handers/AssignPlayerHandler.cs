@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Checkers.Application.Mediator.Players.Handers
 {
-    internal class AssignPlayerHandler : IRequestHandler<AssignPlayerCommand, bool>
+    public class AssignPlayerHandler : IRequestHandler<AssignPlayerCommand, bool>
     {
         private readonly IPlayerService _playerService;
         private readonly IGameService _gameService;

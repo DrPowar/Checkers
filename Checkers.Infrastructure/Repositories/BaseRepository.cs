@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Checkers.Infrastructure.Repositories;
 
-public abstract class BaseRepository<T>(CheckersDbContext context) : IBaseRepository<T>
+public class BaseRepository<T>(CheckersDbContext context) : IBaseRepository<T>
     where T : class
 {
     protected readonly CheckersDbContext Context = context ?? throw new ArgumentNullException(nameof(context));

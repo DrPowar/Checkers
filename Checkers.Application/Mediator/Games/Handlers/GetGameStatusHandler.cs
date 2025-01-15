@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Checkers.Application.Mediator.Games.Handlers
 {
-    internal class GetGameStatusHandler : IRequestHandler<GetGameStatusQuery, GameStatus>
+    public class GetGameStatusHandler : IRequestHandler<GetGameStatusQuery, GameStatus>
     {
         private readonly IGameService _gameService;
 
