@@ -10,6 +10,7 @@ using Checkers.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using System.Data;
 using System.Reflection;
 
 namespace Checkers.Api
@@ -33,18 +34,24 @@ namespace Checkers.Api
             builder.Services.AddSwaggerGen();
 
             builder.Services.TryAddTransient<IBaseRepository<Game>, BaseRepository<Game>>();
+            builder.Services.TryAddTransient<IBaseRepository<Player>, BaseRepository<Player>>();
+
             builder.Services.TryAddTransient<IBoardService, BoardService>();
+            builder.Services.TryAddTransient<IGameService, GameService>();
+            builder.Services.TryAddTransient<IPlayerService, PlayerService>();
 
 
             builder.Services.AddMediatR(options =>
             {
                 options.RegisterServicesFromAssemblies(typeof(InitializeBoardHandler).Assembly);
                 options.RegisterServicesFromAssemblies(typeof(GetBoardHandler).Assembly);
+
                 options.RegisterServicesFromAssemblies(typeof(CreateGameHandler).Assembly);
                 options.RegisterServicesFromAssemblies(typeof(EndGameHandler).Assembly);
                 options.RegisterServicesFromAssemblies(typeof(GetGameByIdHandler).Assembly);
                 options.RegisterServicesFromAssemblies(typeof(GetGameStatusHandler).Assembly);
                 options.RegisterServicesFromAssemblies(typeof(StartGameHandler).Assembly);
+
                 options.RegisterServicesFromAssemblies(typeof(AssignPlayerHandler).Assembly);
                 options.RegisterServicesFromAssemblies(typeof(CreatePlayerHandler).Assembly);
                 options.RegisterServicesFromAssemblies(typeof(GetPlayerByIdHander).Assembly);
