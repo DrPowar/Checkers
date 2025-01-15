@@ -13,7 +13,7 @@ namespace Checkers.Application.Mediator.Players.Handers
         public async Task<bool> Handle(AssignPlayerCommand request, CancellationToken cancellationToken)
         {
             Game game = await _gameService.GetGameById(request.GameId);
-            _playerService.AssignPlayerToGame(request.PlayerId, request.GameId);
+            await _playerService.AssignPlayerToGame(request.PlayerId, request.GameId);
 
             return true;
         }
