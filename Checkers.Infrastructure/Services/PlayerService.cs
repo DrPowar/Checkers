@@ -10,18 +10,31 @@ namespace Checkers.Infrastructure.Services
         private readonly IBaseRepository<Game> _gameRepository;
         private readonly IBaseRepository<Player> _playerRepository;
 
+        public PlayerService(IBaseRepository<Player> playerRepository, IBaseRepository<Game> gameRepository)
+        {
+            _playerRepository = playerRepository;
+            _gameRepository = gameRepository;
+        }
+
         public async Task AssignPlayerToGame(Guid playerId, Game game)
         {
             Player player = await _playerRepository.Get(playerId);
+
+            //TODO: check if number of players < 2
+            if (game.Players.Any())
+            {
+                player.PieceColor = PieceColorType.White;
+            }
 
             if(player != null)
             {
                 game.Players.Add(player);
                 _gameRepository.Update(game);
+                await _gameRepository.SaveChanges();
             }
         }
 
-        public Task<Player> CreatePlayer(string Name)
+        public async Task<Player> CreatePlayer(string Name)
         {
             Player player = new Player
             {
@@ -30,8 +43,9 @@ namespace Checkers.Infrastructure.Services
             };
 
             _playerRepository.Add(player);
+            await _playerRepository.SaveChanges();
 
-            return Task.FromResult(player);
+            return player;
         }
 
         public async Task<Player> GetPlayerById(Guid playerId)

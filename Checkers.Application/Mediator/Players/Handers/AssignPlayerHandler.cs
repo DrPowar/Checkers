@@ -10,6 +10,12 @@ namespace Checkers.Application.Mediator.Players.Handers
         private readonly IPlayerService _playerService;
         private readonly IGameService _gameService;
 
+        public AssignPlayerHandler(IPlayerService playerService, IGameService gameService)
+        {
+            _playerService = playerService;
+            _gameService = gameService;
+        }
+
         public async Task<bool> Handle(AssignPlayerCommand request, CancellationToken cancellationToken)
         {
             Game game = await _gameService.GetGameById(request.GameId);

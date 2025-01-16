@@ -1,6 +1,8 @@
 ﻿using Checkers.Application.Mediator.Boards.Command;
+using Checkers.Application.Mediator.Games.Commands;
 using Checkers.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Checkers.Api.Controllers
@@ -17,11 +19,19 @@ namespace Checkers.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> InitializeBoard()
+        public async Task<IActionResult> CreateGame()
         {
-            List<Piece> board = await _mediator.Send(new InitializeBoardCommand());
+            Game game = await _mediator.Send(new CreateGameCommand());
 
-            return Ok();
+            return Ok(game);
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> InitializeBoard()
+        //{
+        //    List<Piece> board = await _mediator.Send(new InitializeBoardCommand());
+
+        //    return Ok();
+        //}
     }
 }

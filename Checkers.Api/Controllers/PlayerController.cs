@@ -18,16 +18,17 @@ namespace Checkers.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePlayer([FromBody]string name)
+        public async Task<IActionResult> CreatePlayer([FromBody] CreateaPlayerCommand createPlayerResponse)
         {
-            Player player = await _mediator.Send(new CreateaPlayerCommand(name));
+            Player player = await _mediator.Send(createPlayerResponse);
 
             return Ok(player);
         }
 
-        public async Task<IActionResult> AssignPlayerToGame([FromBody]AssignPlayerToGameRequest assignRequest)
+        [HttpPost("assign")]
+        public async Task<IActionResult> AssignPlayerToGame([FromBody] AssignPlayerCommand assignRequest)
         {
-            bool result = await _mediator.Send(new AssignPlayerCommand(assignRequest.PlayerId, assignRequest.GameId));
+            bool result = await _mediator.Send(assignRequest);
 
             return Ok(result);
         }

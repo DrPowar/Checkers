@@ -10,6 +10,12 @@ namespace Checkers.Application.Mediator.Games.Handlers
         private readonly IGameService _gameService;
         private readonly IBoardService _boardService;
 
+        public CreateGameHandler(IBoardService boardService, IGameService gameService)
+        {
+            _boardService = boardService;
+            _gameService = gameService;
+        }
+
         public async Task<Game> Handle(CreateGameCommand request, CancellationToken cancellationToken)
         {
             List<Piece> board = await _boardService.InitializeBoard();

@@ -9,6 +9,11 @@ namespace Checkers.Application.Mediator.Players.Handers
     {
         private readonly IPlayerService _playerService;
 
+        public CreatePlayerHandler(IPlayerService playerService)
+        {
+            _playerService = playerService;
+        }
+
         public async Task<Player> Handle(CreateaPlayerCommand request, CancellationToken cancellationToken)
         {
             return await _playerService.CreatePlayer(request.Name);

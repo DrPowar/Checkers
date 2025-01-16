@@ -49,6 +49,8 @@ namespace Checkers.Api
             builder.Services.TryAddTransient<IGameService, GameService>();
             builder.Services.TryAddTransient<IPlayerService, PlayerService>();
             builder.Services.TryAddTransient<IRuleService, RuleService>();
+            builder.Services.TryAddTransient<IMoveValidationService, MoveValidationService>();
+            builder.Services.TryAddTransient<IStatusService, GameStatusService>();
 
             return builder;
         }

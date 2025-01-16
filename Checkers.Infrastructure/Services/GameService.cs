@@ -9,7 +9,12 @@ namespace Checkers.Infrastructure.Services
     {
         private readonly IBaseRepository<Game> _gameRepository;
 
-        public Task<Game> CreateGame(List<Piece> board)
+        public GameService(IBaseRepository<Game> gameRepository)
+        {
+            _gameRepository = gameRepository;
+        }
+
+        public async Task<Game> CreateGame(List<Piece> board)
         {
             Game game = new Game
             {
@@ -22,8 +27,9 @@ namespace Checkers.Infrastructure.Services
             game.CurrentTurn = game.Players.FirstOrDefault();
 
             _gameRepository.Add(game);
+            await _gameRepository.SaveChanges();
 
-            return Task.FromResult(game);
+            return game;
         }
 
         public async Task EndGame(Guid gameId)
