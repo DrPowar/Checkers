@@ -43,7 +43,7 @@ namespace Checkers.Infrastructure.Services
             }
         }
 
-        public async Task<Game> GetGameById(Guid gameId)
+        public async Task<Game?> GetGameById(Guid gameId)
         {
             return await _gameRepository.Get(gameId);
         }
@@ -57,12 +57,12 @@ namespace Checkers.Infrastructure.Services
 
         public async Task StartGame(Guid gameId)
         {
-            Game game = await _gameRepository.Get(gameId);
+            Game? game = await _gameRepository.Get(gameId);
 
             if(game != null)
             {
                 game.Status = GameStatus.InProgress;
-                _gameRepository.Update(game);
+                await _gameRepository.SaveChanges();
             }
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Checkers.Domain.Enums;
 using Checkers.Domain.Models;
-using System.Threading.Tasks;
 
 namespace Checkers.Domain.Interfaces
 {
