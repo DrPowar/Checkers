@@ -8,6 +8,6 @@ namespace Checkers.Domain.Interfaces
 
         void MakeMove(Guid gameId, Move move);
 
-        List<Move> GetAvalibleMoves(Guid gameId, Position position);
+        List<Move> GetAvaibleMoves(Guid gameId, Piece piece);
     }
 }
