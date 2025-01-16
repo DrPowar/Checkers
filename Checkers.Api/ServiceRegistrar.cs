@@ -16,48 +16,62 @@ namespace Checkers.Api
     {
         public static WebApplication ConfigurWebAppBuilder(this WebApplicationBuilder builder)
         {
-            // Add services to the container.
-
+            // Add basic services
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
-
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
+            // Configure database
             builder.Services.AddDbContext<CheckersDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
                    sqlOptions => sqlOptions.MigrationsAssembly("Checkers.Infrastructure")));
 
+            // Register additional services
+            builder = AddRepositories(builder);
+            builder = AddServices(builder);
+            builder = AddMediators(builder);
 
-            builder.Services.AddSwaggerGen();
+            return builder.Build();
+        }
 
-            builder.Services.TryAddTransient<IBaseRepository<Game>, BaseRepository<Game>>();
-            builder.Services.TryAddTransient<IBaseRepository<Player>, BaseRepository<Player>>();
+        private static WebApplicationBuilder AddRepositories(WebApplicationBuilder builder)
+        {
+            builder.Services.AddTransient<IBaseRepository<Game>, BaseRepository<Game>>();
+            builder.Services.AddTransient<IBaseRepository<Player>, BaseRepository<Player>>();
 
+            return builder;
+        }
 
+        private static WebApplicationBuilder AddServices(WebApplicationBuilder builder)
+        {
             builder.Services.TryAddTransient<IBoardService, BoardService>();
             builder.Services.TryAddTransient<IGameService, GameService>();
             builder.Services.TryAddTransient<IPlayerService, PlayerService>();
             builder.Services.TryAddTransient<IRuleService, RuleService>();
 
+            return builder;
+        }
 
+        private static WebApplicationBuilder AddMediators(WebApplicationBuilder builder)
+        {
             builder.Services.AddMediatR(options =>
             {
-                options.RegisterServicesFromAssemblies(typeof(InitializeBoardHandler).Assembly);
-                options.RegisterServicesFromAssemblies(typeof(GetBoardHandler).Assembly);
-
-                options.RegisterServicesFromAssemblies(typeof(CreateGameHandler).Assembly);
-                options.RegisterServicesFromAssemblies(typeof(EndGameHandler).Assembly);
-                options.RegisterServicesFromAssemblies(typeof(GetGameByIdHandler).Assembly);
-                options.RegisterServicesFromAssemblies(typeof(GetGameStatusHandler).Assembly);
-                options.RegisterServicesFromAssemblies(typeof(StartGameHandler).Assembly);
-
-                options.RegisterServicesFromAssemblies(typeof(AssignPlayerHandler).Assembly);
-                options.RegisterServicesFromAssemblies(typeof(CreatePlayerHandler).Assembly);
-                options.RegisterServicesFromAssemblies(typeof(GetPlayerByIdHander).Assembly);
+                options.RegisterServicesFromAssemblies(
+                    typeof(InitializeBoardHandler).Assembly,
+                    typeof(GetBoardHandler).Assembly,
+                    typeof(CreateGameHandler).Assembly,
+                    typeof(EndGameHandler).Assembly,
+                    typeof(GetGameByIdHandler).Assembly,
+                    typeof(GetGameStatusHandler).Assembly,
+                    typeof(StartGameHandler).Assembly,
+                    typeof(AssignPlayerHandler).Assembly,
+                    typeof(CreatePlayerHandler).Assembly,
+                    typeof(GetPlayerByIdHander).Assembly
+                );
             });
 
-            return builder.Build();
+            return builder;
         }
     }
 }
