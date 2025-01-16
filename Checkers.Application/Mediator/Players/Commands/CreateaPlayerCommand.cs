@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Checkers.Application.Mediator.Players.Commands
 {
-    public record CreateaPlayerCommand(string Name, PieceColorType PieceColor) : IRequest<Player>;
+    public record CreateaPlayerCommand(string Name) : IRequest<Player>;
 }

@@ -21,13 +21,12 @@ namespace Checkers.Infrastructure.Services
             }
         }
 
-        public Task<Player> CreatePlayer(string Name, PieceColorType pieceColor)
+        public Task<Player> CreatePlayer(string Name)
         {
             Player player = new Player
             {
                 Id = Guid.NewGuid(),
-                Name = Name,
-                PieceColor = pieceColor
+                Name = Name
             };
 
             _playerRepository.Add(player);

@@ -9,15 +9,12 @@ using Checkers.Infrastructure.Repositories;
 using Checkers.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
-using System.Data;
-using System.Reflection;
 
 namespace Checkers.Api
 {
     public static class ServiceRegistrar
     {
-        public static WebApplication RegisterServices(this WebApplicationBuilder builder)
+        public static WebApplication ConfigurWebAppBuilder(this WebApplicationBuilder builder)
         {
             // Add services to the container.
 
@@ -28,7 +25,8 @@ namespace Checkers.Api
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddDbContext<CheckersDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                   sqlOptions => sqlOptions.MigrationsAssembly("Checkers.Infrastructure")));
 
 
             builder.Services.AddSwaggerGen();
@@ -36,9 +34,11 @@ namespace Checkers.Api
             builder.Services.TryAddTransient<IBaseRepository<Game>, BaseRepository<Game>>();
             builder.Services.TryAddTransient<IBaseRepository<Player>, BaseRepository<Player>>();
 
+
             builder.Services.TryAddTransient<IBoardService, BoardService>();
             builder.Services.TryAddTransient<IGameService, GameService>();
             builder.Services.TryAddTransient<IPlayerService, PlayerService>();
+            builder.Services.TryAddTransient<IRuleService, RuleService>();
 
 
             builder.Services.AddMediatR(options =>

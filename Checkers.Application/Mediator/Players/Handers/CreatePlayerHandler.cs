@@ -11,7 +11,7 @@ namespace Checkers.Application.Mediator.Players.Handers
 
         public async Task<Player> Handle(CreateaPlayerCommand request, CancellationToken cancellationToken)
         {
-            return await _playerService.CreatePlayer(request.Name, request.PieceColor);
+            return await _playerService.CreatePlayer(request.Name);
         }
     }
 }

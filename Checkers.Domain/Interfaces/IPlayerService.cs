@@ -5,7 +5,7 @@ namespace Checkers.Domain.Interfaces
 {
     public interface IPlayerService
     {
-        Task<Player> CreatePlayer(string Name, PieceColorType pieceColor);
+        Task<Player> CreatePlayer(string Name);
 
         Task<Player> GetPlayerById(Guid playerId);
 

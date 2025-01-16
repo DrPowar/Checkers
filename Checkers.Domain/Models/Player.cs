@@ -21,4 +21,9 @@ public class Player
     /// Indicates which color the player plays.
     /// </summary>
     public PieceColorType PieceColor { get; set; }
+
+    /// <summary>
+    /// Collection of previous moves
+    /// </summary>
+    public ICollection<Move> Moves { get; set; } = new List<Move>();
 }

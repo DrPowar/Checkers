@@ -24,11 +24,15 @@ public class Move
     
     public Player? Player { get; set; }
     
+    public Guid FromId { get; set; }
+
     /// <summary>
     /// Starting position of the piece.
     /// </summary>
     public Position From { get; set; }
     
+    public Guid ToId { get; set; }
+
     /// <summary>
     /// Ending position of the piece.
     /// </summary>

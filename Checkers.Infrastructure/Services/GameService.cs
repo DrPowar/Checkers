@@ -11,7 +11,15 @@ namespace Checkers.Infrastructure.Services
 
         public Task<Game> CreateGame(List<Piece> board)
         {
-            Game game = new Game(board);
+            Game game = new Game
+            {
+                Id = Guid.NewGuid(),
+                Players = new List<Player>(2),
+                Board = board,
+                Status = GameStatus.Paused
+            };
+
+            game.CurrentTurn = game.Players.FirstOrDefault();
 
             _gameRepository.Add(game);
 

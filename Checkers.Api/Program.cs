@@ -3,7 +3,7 @@ using Checkers.Api;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-WebApplication app = builder.RegisterServices();
+WebApplication app = builder.ConfigurWebAppBuilder();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
