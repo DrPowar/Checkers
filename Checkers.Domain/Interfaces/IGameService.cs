@@ -8,7 +8,7 @@ namespace Checkers.Domain.Interfaces
     {
         Task<Game> CreateGame(List<Piece> board);
 
-        Task<Game> GetGameById(Guid gameId);
+        Task<Game?> GetGameById(Guid gameId);
 
         Task StartGame(Guid gameId);
 

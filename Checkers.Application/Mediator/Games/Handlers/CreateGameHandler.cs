@@ -5,16 +5,14 @@ using MediatR;
 
 namespace Checkers.Application.Mediator.Games.Handlers
 {
-    public class CreateGameHandler : IRequestHandler<CreateGameCommand, Game>
+    public class CreateGameHandler(IBoardService boardService, IGameService gameService)
+        : IRequestHandler<CreateGameCommand, Game>
     {
-        private readonly IGameService _gameService;
-        private readonly IBoardService _boardService;
+        private readonly IGameService
+            _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
 
-        public CreateGameHandler(IBoardService boardService, IGameService gameService)
-        {
-            _boardService = boardService;
-            _gameService = gameService;
-        }
+        private readonly IBoardService _boardService =
+            boardService ?? throw new ArgumentNullException(nameof(boardService));
 
         public async Task<Game> Handle(CreateGameCommand request, CancellationToken cancellationToken)
         {

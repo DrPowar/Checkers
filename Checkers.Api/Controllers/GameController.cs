@@ -1,5 +1,5 @@
-﻿using Checkers.Application.Mediator.Boards.Command;
-using Checkers.Application.Mediator.Games.Commands;
+﻿using Checkers.Application.Mediator.Games.Commands;
+using Checkers.Application.Mediator.Games.Queries;
 using Checkers.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -9,29 +9,25 @@ namespace Checkers.Api.Controllers
 {
     [ApiController]
     [Route("api/games")]
-    public class GameController : ControllerBase
+    public class GameController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public GameController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        private readonly IMediator _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         [HttpPost]
         public async Task<IActionResult> CreateGame()
         {
             Game game = await _mediator.Send(new CreateGameCommand());
 
-            return Ok(game);
+            return CreatedAtRoute("GetGame", new { id = game.Id }, game);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> InitializeBoard()
-        //{
-        //    List<Piece> board = await _mediator.Send(new InitializeBoardCommand());
-
-        //    return Ok();
-        //}
+        [HttpGet("{gameId}", Name = "GetGame")]
+        public async Task<IActionResult> GetGame(Guid gameId)
+        {
+            GetGameByIdQuery query = new GetGameByIdQuery(gameId);
+            Game? game = await _mediator.Send(query);
+            
+            return Ok(game);
+        }
     }
 }

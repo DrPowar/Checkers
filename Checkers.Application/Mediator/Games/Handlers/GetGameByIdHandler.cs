@@ -5,13 +5,21 @@ using MediatR;
 
 namespace Checkers.Application.Mediator.Games.Handlers
 {
-    public class GetGameByIdHandler : IRequestHandler<GetGameByIdQuery, Game>
+    public class GetGameByIdHandler(IGameService gameService) : IRequestHandler<GetGameByIdQuery, Game?>
     {
-        private readonly IGameService _gameService;
+        private readonly IGameService
+            _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
 
-        public async Task<Game> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Game?> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _gameService.GetGameById(request.GameId);
+            Game? gameFromRepo = await _gameService.GetGameById(request.GameId);
+            
+            if (gameFromRepo == null)
+            {
+                throw new KeyNotFoundException($"Game with ID {request.GameId} does not exist.");
+            }
+            
+            return gameFromRepo;
         }
     }
 }
