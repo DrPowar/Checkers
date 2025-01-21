@@ -1,56 +1,32 @@
-﻿using Checkers.Domain.Enums;
-using Checkers.Domain.Interfaces;
+﻿using Checkers.Domain.Interfaces;
 using Checkers.Domain.Interfaces.Repositories;
 using Checkers.Domain.Models;
 
 namespace Checkers.Infrastructure.Services
 {
-    public class PlayerService : IPlayerService
+    public class PlayerService(IBaseRepository<Player> playerRepository)
+        : IPlayerService
     {
-        private readonly IBaseRepository<Game> _gameRepository;
-        private readonly IBaseRepository<Player> _playerRepository;
+        private readonly IBaseRepository<Player> _playerRepository = 
+            playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
 
-        public PlayerService(IBaseRepository<Player> playerRepository, IBaseRepository<Game> gameRepository)
-        {
-            _playerRepository = playerRepository;
-            _gameRepository = gameRepository;
-        }
-
-        public async Task AssignPlayerToGame(Guid playerId, Game game)
-        {
-            Player player = await _playerRepository.Get(playerId);
-
-            //TODO: check if number of players < 2
-            if (game.Players.Any())
-            {
-                player.PieceColor = PieceColorType.White;
-            }
-
-            if(player != null)
-            {
-                game.Players.Add(player);
-                _gameRepository.Update(game);
-                await _gameRepository.SaveChanges();
-            }
-        }
-
-        public async Task<Player> CreatePlayer(string Name)
+        public async Task<Player> CreatePlayer(string name, CancellationToken cancellationToken = default)
         {
             Player player = new Player
             {
                 Id = Guid.NewGuid(),
-                Name = Name
+                Name = name
             };
 
-            _playerRepository.Add(player);
-            await _playerRepository.SaveChanges();
+            _playerRepository.Add(player, cancellationToken);
+            await _playerRepository.SaveChanges(cancellationToken);
 
             return player;
         }
 
-        public async Task<Player> GetPlayerById(Guid playerId)
+        public async Task<Player?> GetPlayerById(Guid playerId, CancellationToken cancellationToken = default)
         {
-            return await _playerRepository.Get(playerId);
+            return await _playerRepository.Get(playerId, cancellationToken);
         }
     }
 }

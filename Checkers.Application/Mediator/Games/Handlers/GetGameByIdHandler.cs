@@ -13,7 +13,6 @@ namespace Checkers.Application.Mediator.Games.Handlers
         public async Task<Game?> Handle(GetGameByIdQuery request, CancellationToken cancellationToken)
         {
             Game? gameFromRepo = await _gameService.GetGameById(request.GameId);
-            
             if (gameFromRepo == null)
             {
                 throw new KeyNotFoundException($"Game with ID {request.GameId} does not exist.");

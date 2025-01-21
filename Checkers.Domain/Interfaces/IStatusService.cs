@@ -4,6 +4,6 @@ namespace Checkers.Domain.Interfaces;
 
 public interface IStatusService
 {
-    bool IsGameOver(Game game);
+    Task<bool> IsGameOver(Game game, CancellationToken token = default);
     Player? GetWinner(Game game);
 }

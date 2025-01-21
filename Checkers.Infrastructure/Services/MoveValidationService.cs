@@ -6,7 +6,7 @@ namespace Checkers.Infrastructure.Services;
 
 public class MoveValidationService : IMoveValidationService
 {
-    public bool IsMoveValid(Game game, Move move)
+    public bool ValidateMove(Game game, Move move)
     {
         if (game == null || move == null)
         {

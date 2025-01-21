@@ -5,18 +5,12 @@ using Checkers.Domain.Models;
 
 namespace Checkers.Infrastructure.Services
 {
-    public class BoardService : IBoardService
+    public class BoardService(IBaseRepository<Game> gameRepository) : IBoardService
     {
-        private readonly IBaseRepository<Game> _gameRepository;
+        private readonly IBaseRepository<Game> _gameRepository = 
+            gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
 
-        public async Task<List<Piece>> GetBoard(Guid gameId)
-        {
-            Game game = await _gameRepository.Get(gameId);
-
-            return game.Board;
-        }
-
-        public Task<List<Piece>> InitializeBoard()
+        public Task<List<Piece>> InitializeBoard(CancellationToken cancellationToken = default)
         {
             List<Piece> pieces = new List<Piece>();
 
@@ -51,9 +45,16 @@ namespace Checkers.Infrastructure.Services
             return Task.FromResult(pieces);
         }
 
-        public Task<List<Piece>> UpdateBoard(Guid gameId)
+        public async Task<List<Piece>> GetBoard(Guid gameId, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            Game? game = await _gameRepository.Get(gameId, cancellationToken);
+
+            if (game == null)
+            {
+                throw new KeyNotFoundException($"Game with ID {gameId} does not exist. ");
+            }
+            
+            return game.Board;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Checkers.Application.Mediator.Games.Handlers
         {
             List<Piece> board = await _boardService.InitializeBoard();
 
-            return await _gameService.CreateGame(board);
+            return await _gameService.CreateGameAndSave(board);
         }
     }
 }

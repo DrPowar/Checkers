@@ -4,5 +4,5 @@ namespace Checkers.Domain.Interfaces;
 
 public interface IMoveValidationService
 {
-    bool IsMoveValid(Game game, Move move);
+    bool ValidateMove(Game game, Move move);
 }

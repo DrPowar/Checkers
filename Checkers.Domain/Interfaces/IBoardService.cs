@@ -4,10 +4,8 @@ namespace Checkers.Domain.Interfaces
 {
     public interface IBoardService
     {
-        Task<List<Piece>> InitializeBoard();
+        Task<List<Piece>> InitializeBoard(CancellationToken cancellationToken = default);
 
-        Task<List<Piece>> GetBoard(Guid gameId);
-
-        Task<List<Piece>> UpdateBoard(Guid gameId);
+        Task<List<Piece>> GetBoard(Guid gameId, CancellationToken cancellationToken = default);
     }
 }

@@ -5,14 +5,10 @@ namespace Checkers.Domain.Interfaces
 {
     public interface IGameService
     {
-        Task<Game> CreateGame(List<Piece> board);
-
-        Task<Game?> GetGameById(Guid gameId);
-
-        Task StartGame(Guid gameId);
-
-        Task EndGame(Guid gameId);
-
-        Task<GameStatus> GetGameStatus(Guid gameId);
+        Task<Game> CreateGameAndSave(List<Piece> board, CancellationToken cancellationToken = default);
+        Task<Game?> GetGameById(Guid gameId, CancellationToken cancellationToken = default);
+        Task ChangeStatus(Guid gameId, GameStatus newStatus, CancellationToken cancellationToken = default);
+        Task<GameStatus> GetGameStatus(Guid gameId, CancellationToken cancellationToken = default);
+        Task AssignPlayerToGame(Guid gameId, Guid playerId, CancellationToken cancellationToken = default);
     }
 }

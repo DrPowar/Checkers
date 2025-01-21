@@ -6,7 +6,7 @@ namespace Checkers.Infrastructure.Services;
 
 public class GameStatusService : IStatusService
 {
-    public bool IsGameOver(Game game)
+    public async Task<bool> IsGameOver(Game game, CancellationToken cancellationToken = default)
     {
         if (GetPieceCount(game, PieceColorType.Black) == 0 || GetPieceCount(game, PieceColorType.White) == 0)
         {
@@ -14,7 +14,7 @@ public class GameStatusService : IStatusService
         }
 
         var nextPlayer = game.Players.First(p => p.PieceColor != game.CurrentTurn!.PieceColor);
-        return !HasAvailableMoves(game, nextPlayer);
+        return !await HasAvailableMoves(game, nextPlayer, cancellationToken);
     }
     
     public Player? GetWinner(Game game)
@@ -40,14 +40,17 @@ public class GameStatusService : IStatusService
         return game.Board.Count(p => p.PieceColor == pieceColor);
     }
 
-    private bool HasAvailableMoves(Game game, Player player)
+    private async Task<bool> HasAvailableMoves(Game game, Player player, CancellationToken cancellationToken = default)
     {
-        return game.Board
+        var tasks = game.Board
             .Where(p => p.PieceColor == player.PieceColor)
-            .Any(piece => CanMove(piece, game));
+            .Select(piece => CanMove(piece, game, cancellationToken));
+
+        var results = await Task.WhenAll(tasks);
+        return results.Any(canMove => canMove);
     }
 
-    private bool CanMove(Piece piece, Game game)
+    private async Task<bool> CanMove(Piece piece, Game game, CancellationToken cancellationToken = default)
     {
         var directions = piece.IsKing
             ? new List<(int, int)> { (1, 1), (1, -1), (-1, 1), (-1, -1) }
@@ -55,15 +58,22 @@ public class GameStatusService : IStatusService
                 ? new List<(int, int)> { (1, 1), (1, -1) }
                 : new List<(int, int)> { (-1, 1), (-1, -1) };
 
-        foreach (var (dx, dy) in directions)
-        {
-            if (IsValidMove(piece, dx, dy, game) || IsValidJump(piece, dx, dy, game))
-            {
-                return true;
-            }
-        }
+        var tasks = directions.Select(direction => CanMoveOrJump(piece, direction, game, cancellationToken));
+        var results = await Task.WhenAll(tasks);
 
-        return false;
+        return results.Any(result => result);
+    }
+    
+    private async Task<bool> CanMoveOrJump(Piece piece, (int dx, int dy) direction, Game game, CancellationToken cancellationToken)
+    {
+        var (dx, dy) = direction;
+
+        var canMoveTask = Task.Run(() => IsValidMove(piece, dx, dy, game), cancellationToken);
+        var canJumpTask = Task.Run(() => IsValidJump(piece, dx, dy, game), cancellationToken);
+
+        await Task.WhenAll(canMoveTask, canJumpTask);
+
+        return canMoveTask.Result || canJumpTask.Result;
     }
 
     private bool IsValidMove(Piece piece, int dx, int dy, Game game)
