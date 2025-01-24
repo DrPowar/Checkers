@@ -1,5 +1,6 @@
 
 using Checkers.Api;
+using Checkers.Api.Hubs;
 using Checkers.Api.Middleware;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHub<GameHub>("/gamehub");
+
+app.UseCors("AllowFrontend");
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

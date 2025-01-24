@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Checkers.Api.Hubs;
 using Checkers.Application.Behaviors;
 using Checkers.Application.Mediator.Boards.Handlers;
 using Checkers.Application.Mediator.Games.Handlers;
@@ -32,6 +33,18 @@ namespace Checkers.Api
                 setupAction.IncludeXmlComments(xmlCommentsFullPath);
             });
 
+            // Configure CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins("http://localhost:3000")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
+
             // Configure database
             builder.Services.AddDbContext<CheckersDbContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -46,6 +59,8 @@ namespace Checkers.Api
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ErrorHandlingBehavior<,>));
             
             builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddSignalR();
             
             return builder.Build();
         }
@@ -66,6 +81,7 @@ namespace Checkers.Api
             builder.Services.TryAddTransient<IGameEngineService, GameEngineService>();
             builder.Services.TryAddTransient<IMoveValidationService, MoveValidationService>();
             builder.Services.TryAddTransient<IStatusService, GameStatusService>();
+            builder.Services.TryAddTransient<IGameHub, GameHub>();
 
             return builder;
         }
